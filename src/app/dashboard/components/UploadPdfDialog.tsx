@@ -16,6 +16,8 @@ import { useMutation } from "convex/react"
 import { api } from "../../../../convex/_generated/api"
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
+import { useUser } from "@clerk/nextjs"
+import uuid4 from "uuid4";
 
 export default function UploadPdfDialog({
     children
@@ -23,25 +25,44 @@ export default function UploadPdfDialog({
     children: React.ReactNode
 }>) {
     const generateUploadUrl = useMutation(api.fileStorage.generateUploadUrl)
-    const [file, setFile] = useState()
-    const [loading, setLoading] = useState(false)
+    const addFileEntry = useMutation(api.fileStorage.addFileEntryToDb)
+    const getFileUrl = useMutation(api.fileStorage.getFileUrl)
+    const { user } = useUser()
 
-    const onFileSelect = (event) => {
-        setFile(event.target.file[0])
+    const [file, setFile] = useState<File | undefined>()
+    const [loading, setLoading] = useState(false)
+    const [fileName, setFileName] = useState<string>()
+
+    const onFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = event.target.files?.[0]
+        setFile(selectedFile)
     }
-    const OnUpload = async () => {
+    const onUpload = async () => {
+        if (!file) return
+
         setLoading(true)
 
         // Step 1: Get a short-lived upload URL
-        const postUrl = await generateUploadUrl();
+        const postUrl = await generateUploadUrl()
+
         // Step 2: POST the file to the URL
         const result = await fetch(postUrl, {
             method: "POST",
-            headers: { "Content-Type": file?.type },
+            headers: { "Content-Type": file.type },
             body: file,
-        });
-        const { storageId } = await result.json();
-        console.log('id', storageId)
+        })
+        const { storageId } = await result.json()
+        const fileId = uuid4()
+        const fileUrl = await getFileUrl({ storageId: storageId })
+
+        // Step 3: Save the newly allocated storage id to the database
+        await addFileEntry({
+            fileId: fileId,
+            storageId: storageId,
+            fileName: fileName ?? 'Untitled File',
+            fileUrl: fileUrl ?? '',
+            createdBy: user?.primaryEmailAddress?.emailAddress ?? 'unknown'
+        })
 
         setLoading(false)
     }
@@ -62,7 +83,9 @@ export default function UploadPdfDialog({
                             </div>
                             <div className="mt-2">
                                 <label>File Name *</label>
-                                <Input placeholder="File Name"></Input>
+                                <Input placeholder="File Name"
+                                    onChange={(e) => setFileName(e.target.value)}>
+                                </Input>
                             </div>
                         </div>
                     </DialogDescription>
@@ -71,7 +94,7 @@ export default function UploadPdfDialog({
                     <DialogClose asChild>
                         <Button variant="outline">Close</Button>
                     </DialogClose>
-                    <Button onClick={OnUpload}>
+                    <Button onClick={onUpload}>
                         {loading ?
                             <Loader2 className="animate-spin"></Loader2> : 'Upload'
                         }
