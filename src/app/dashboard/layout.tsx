@@ -1,5 +1,6 @@
 import React from 'react'
 import SideBar from './components/SideBar'
+import Header from './components/Header';
 
 export default function DashboardLayout({
     children,
@@ -12,7 +13,10 @@ export default function DashboardLayout({
                 <SideBar></SideBar>
             </div>
             <div className='md:ml-64'>
-                {children}
+                <Header></Header>
+                <div className='p-5'>
+                    {children}
+                </div>
             </div>
         </div>
     )
