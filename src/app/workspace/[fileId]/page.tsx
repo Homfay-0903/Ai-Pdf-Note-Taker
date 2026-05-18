@@ -5,12 +5,17 @@ import WorkspaceHeader from '../components/WorkspaceHeader'
 import { useQuery } from 'convex/react'
 import { api } from '../../../../convex/_generated/api'
 import PdfViewer from '../components/PdfViewer'
+import TextEditor from '../components/TextEditor'
 
 export default function Workspace() {
     const { fileId } = useParams()
     const fileInfo = useQuery(api.fileStorage.getFileRecord, {
-        fileId: fileId
+        fileId: fileId as string
     })
+
+    if (!fileInfo?.fileUrl) {
+        return <div>Loading...</div>
+    }
 
     return (
         <div>
@@ -19,10 +24,10 @@ export default function Workspace() {
 
             <div className='grid grid-cols-2 gap-5'>
                 <div>
-
+                    <TextEditor></TextEditor>
                 </div>
                 <div>
-                    <PdfViewer fileUrl={fileInfo?.fileUrl}></PdfViewer>
+                    <PdfViewer fileUrl={fileInfo.fileUrl}></PdfViewer>
                 </div>
             </div>
 
