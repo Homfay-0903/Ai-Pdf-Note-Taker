@@ -9,6 +9,8 @@
  */
 
 import type * as fileStorage from "../fileStorage.js";
+import type * as langchain_db from "../langchain/db.js";
+import type * as myAction from "../myAction.js";
 import type * as user from "../user.js";
 
 import type {
@@ -19,6 +21,8 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   fileStorage: typeof fileStorage;
+  "langchain/db": typeof langchain_db;
+  myAction: typeof myAction;
   user: typeof user;
 }>;
 

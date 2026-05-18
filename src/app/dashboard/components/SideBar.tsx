@@ -10,9 +10,7 @@ export default function SideBar() {
             <img src={'/logo.svg'} alt="logo" width={150} height={150} />
 
             <div className='mt-10'>
-                <UploadPdfDialog>
-                    <Button className='w-full'>+ Upload Pdf</Button>
-                </UploadPdfDialog>
+                <UploadPdfDialog></UploadPdfDialog>
 
                 <div className='flex gap-2 items-center p-3 mt-5
                 hover:bg-slate-100 rounded-lg cursor-pointer'>

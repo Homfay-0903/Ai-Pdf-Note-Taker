@@ -12,26 +12,25 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { useMutation } from "convex/react"
+import { useAction, useMutation } from "convex/react"
 import { api } from "../../../../convex/_generated/api"
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
 import { useUser } from "@clerk/nextjs"
 import uuid4 from "uuid4";
+import axios from 'axios'
 
-export default function UploadPdfDialog({
-    children
-}: Readonly<{
-    children: React.ReactNode
-}>) {
+export default function UploadPdfDialog() {
     const generateUploadUrl = useMutation(api.fileStorage.generateUploadUrl)
     const addFileEntry = useMutation(api.fileStorage.addFileEntryToDb)
     const getFileUrl = useMutation(api.fileStorage.getFileUrl)
+    const embeddDocment = useAction(api.myAction.ingest)
     const { user } = useUser()
 
     const [file, setFile] = useState<File | undefined>()
     const [loading, setLoading] = useState(false)
     const [fileName, setFileName] = useState<string>()
+    const [open, setOpen] = useState(false)
 
     const onFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = event.target.files?.[0]
@@ -64,12 +63,20 @@ export default function UploadPdfDialog({
             createdBy: user?.primaryEmailAddress?.emailAddress ?? 'unknown'
         })
 
+        //step 4
+        const apiResp = await axios.get('api/pdf-loader?pdfUrl=' + fileUrl)
+        await embeddDocment({
+            splitText: apiResp.data.result,
+            fileId: fileId
+        })
+
         setLoading(false)
+        setOpen(false)
     }
     return (
-        <Dialog>
+        <Dialog open={open}>
             <DialogTrigger asChild>
-                {children}
+                <Button onClick={() => setOpen(true)} className='w-full'>+ Upload Pdf</Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>

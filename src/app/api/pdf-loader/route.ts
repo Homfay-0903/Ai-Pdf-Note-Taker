@@ -2,9 +2,11 @@ import { NextResponse } from "next/server";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 
-const pdfUrl = 'https://curious-lemur-430.convex.cloud/api/storage/21eb95e8-7607-4cd9-8752-94a7910148d1'
-
 export async function GET(req: Request) {
+    const reqUrl = req.url
+    const { searchParams } = new URL(reqUrl)
+    const pdfUrl = searchParams.get('pdfUrl') ?? ''
+
     //step1
     const response = await fetch(pdfUrl)
     const data = await response.blob()
