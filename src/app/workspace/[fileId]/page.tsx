@@ -19,12 +19,12 @@ export default function Workspace() {
 
     return (
         <div>
-            <WorkspaceHeader></WorkspaceHeader>
+            <WorkspaceHeader fileName={fileInfo.fileName}></WorkspaceHeader>
 
 
             <div className='grid grid-cols-2 gap-5'>
                 <div>
-                    <TextEditor></TextEditor>
+                    <TextEditor fileId={fileId as string}></TextEditor>
                 </div>
                 <div>
                     <PdfViewer fileUrl={fileInfo.fileUrl}></PdfViewer>

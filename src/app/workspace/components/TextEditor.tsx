@@ -5,8 +5,15 @@ import Placeholder from '@tiptap/extension-placeholder'
 import StarterKit from '@tiptap/starter-kit'
 import Highlight from '@tiptap/extension-highlight'
 import EditorExtensions from './EditorExtensions'
+import { useQuery } from 'convex/react'
+import { api } from '../../../../convex/_generated/api'
+import { useEffect } from 'react'
 
-export default function TextEditor() {
+interface TextEditorProps {
+    fileId: string
+}
+
+export default function TextEditor({ fileId }: TextEditorProps) {
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -24,6 +31,13 @@ export default function TextEditor() {
         immediatelyRender: false,
     })
 
+    const getNotes = useQuery(api.notes.getNotes, {
+        fileId: fileId
+    })
+    useEffect(() => {
+        editor && editor.commands.setContent(getNotes)
+    }, [editor && getNotes])
+
     if (!editor) {
         return null
     }
@@ -31,7 +45,7 @@ export default function TextEditor() {
     return (
         <div>
             <EditorExtensions editor={editor}></EditorExtensions>
-            <div>
+            <div className='overflow-scroll h-[80vh]'>
                 <EditorContent editor={editor} />
             </div>
         </div>

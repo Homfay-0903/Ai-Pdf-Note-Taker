@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import Provider from "./provider";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "sonner";
 
 //const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 const outfit = Outfit({ subsets: ['latin'] })
@@ -24,6 +25,7 @@ export default function RootLayout({
           <Provider>
             {children}
           </Provider>
+          <Toaster />
         </body >
       </html >
     </ClerkProvider>

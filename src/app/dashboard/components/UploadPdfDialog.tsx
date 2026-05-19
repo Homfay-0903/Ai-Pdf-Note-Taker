@@ -19,8 +19,13 @@ import { Loader2 } from "lucide-react"
 import { useUser } from "@clerk/nextjs"
 import uuid4 from "uuid4";
 import axios from 'axios'
+import { toast } from "sonner"
 
-export default function UploadPdfDialog() {
+interface UploadPdfDialogProps {
+    isMaxFile: boolean
+}
+
+export default function UploadPdfDialog({ isMaxFile }: UploadPdfDialogProps) {
     const generateUploadUrl = useMutation(api.fileStorage.generateUploadUrl)
     const addFileEntry = useMutation(api.fileStorage.addFileEntryToDb)
     const getFileUrl = useMutation(api.fileStorage.getFileUrl)
@@ -72,11 +77,13 @@ export default function UploadPdfDialog() {
 
         setLoading(false)
         setOpen(false)
+
+        toast('file is ready!')
     }
     return (
         <Dialog open={open}>
             <DialogTrigger asChild>
-                <Button onClick={() => setOpen(true)} className='w-full'>+ Upload Pdf</Button>
+                <Button onClick={() => setOpen(true)} disabled={isMaxFile} className='w-full'>+ Upload Pdf</Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
