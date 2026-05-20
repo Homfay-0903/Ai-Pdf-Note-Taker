@@ -5,6 +5,7 @@ import { useQuery } from "convex/react"
 import { api } from "../../../convex/_generated/api"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 
 interface FileType {
     _id: string
@@ -18,24 +19,25 @@ interface FileType {
 
 export default function Dashboard() {
     const { user } = useUser()
+    const t = useTranslations('dashboard.workspace')
     const userFiles = useQuery(api.fileStorage.getUserFiles, {
         userEmail: (user?.primaryEmailAddress?.emailAddress) as string
     }) as FileType[] | undefined
 
     return (
         <div>
-            <h2 className='font-medium text-3xl'>Workspace</h2>
+            <h2 className='font-medium text-3xl'>{t('title')}</h2>
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mt-5">
                 {!userFiles ? (
                     <div className="col-span-full flex flex-col items-center justify-center py-12">
                         <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
-                        <p className="mt-3 text-gray-500">Loading files...</p>
+                        <p className="mt-3 text-gray-500">{t('loading')}</p>
                     </div>
                 ) : userFiles.length === 0 ? (
                     <div className="col-span-full flex flex-col items-center justify-center py-12 text-center">
-                        <p className="text-gray-500">No files uploaded yet</p>
-                        <p className="text-sm text-gray-400 mt-1">Upload your first PDF to get started</p>
+                        <p className="text-gray-500">{t('emptyTitle')}</p>
+                        <p className="text-sm text-gray-400 mt-1">{t('emptyDescription')}</p>
                     </div>
                 ) : (
                     userFiles.map((file) => (

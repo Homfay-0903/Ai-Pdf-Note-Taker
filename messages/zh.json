@@ -1,0 +1,112 @@
+{
+  "metadata": {
+    "title": "AI PDF 笔记助手",
+    "description": "AI PDF 笔记助手"
+  },
+  "language": {
+    "en": "EN",
+    "zh": "中文"
+  },
+  "home": {
+    "nav": {
+      "features": "功能",
+      "solution": "解决方案",
+      "testimonials": "用户评价",
+      "blog": "博客"
+    },
+    "signIn": "登录",
+    "hero": {
+      "titlePrefix": "用",
+      "pdf": "PDF",
+      "titleSuffix": "笔记更简单",
+      "with": "借助",
+      "aiPowered": "AI 能力",
+      "description": "使用 AI 驱动的 PDF 应用，提升你的笔记体验。只需几次点击，即可从任意 PDF 中提取关键见解、摘要与批注。",
+      "getStarted": "立即开始",
+      "learnMore": "了解更多"
+    },
+    "features": {
+      "lowestPrice": {
+        "title": "价格最低",
+        "description": "更多说明文案"
+      },
+      "fastest": {
+        "title": "市场上最快",
+        "description": "更多说明文案"
+      },
+      "mostLoved": {
+        "title": "最受欢迎",
+        "description": "更多说明文案"
+      }
+    }
+  },
+  "dashboard": {
+    "sidebar": {
+      "workspace": "工作区",
+      "upgrate": "升级",
+      "uploadProgress": "已上传 {count} / 5 个 PDF",
+      "upgradeToUploadMore": "升级后可上传更多 PDF",
+      "unlimitedUser": "你已是无限版用户！"
+    },
+    "upload": {
+      "button": "+ 上传 PDF",
+      "dialogTitle": "上传 PDF 文件",
+      "selectFile": "选择要上传的文件",
+      "fileNameLabel": "文件名 *",
+      "fileNamePlaceholder": "文件名",
+      "close": "关闭",
+      "upload": "上传",
+      "untitledFile": "未命名文件",
+      "fileReady": "文件已就绪！"
+    },
+    "workspace": {
+      "title": "工作区",
+      "loading": "正在加载文件...",
+      "emptyTitle": "尚未上传任何文件",
+      "emptyDescription": "上传你的第一个 PDF 开始使用"
+    },
+    "plans": {
+      "title": "套餐",
+      "subtitle": "升级套餐以上传更多 PDF 并记录笔记",
+      "free": {
+        "name": "免费版",
+        "duration": "/月",
+        "button": "当前套餐",
+        "features": {
+          "pdfUpload": "5 个 PDF 上传额度",
+          "notes": "无限笔记",
+          "email": "邮件支持",
+          "help": "帮助中心访问"
+        }
+      },
+      "unlimited": {
+        "name": "无限版",
+        "duration": "/一次性",
+        "button": "立即开通",
+        "features": {
+          "pdfUpload": "无限 PDF 上传",
+          "notes": "无限笔记",
+          "email": "邮件支持",
+          "help": "帮助中心访问"
+        }
+      },
+      "paySuccess": "支付成功！"
+    }
+  },
+  "workspace": {
+    "editor": {
+      "placeholder": "在此开始记录笔记…",
+      "bold": "加粗",
+      "italic": "斜体",
+      "highlight": "高亮",
+      "aiAssistant": "AI 助手",
+      "export": "导出",
+      "aiWorking": "AI 正在处理...",
+      "editorNotReady": "编辑器未就绪",
+      "contentNotFound": "未找到编辑器内容",
+      "unableCreatePrint": "无法创建打印文档",
+      "unableAccessPrint": "无法访问打印窗口",
+      "answerLabel": "回答："
+    }
+  }
+}

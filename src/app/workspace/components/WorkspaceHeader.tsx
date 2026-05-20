@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 import { UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 
@@ -14,6 +14,7 @@ export default function WorkspaceHeader({ fileName }: WorkspaceHeaderProps) {
             </Link>
             <h2 className='font-bold'>{fileName}</h2>
             <div className='flex items-center gap-2'>
+                <LanguageSwitcher />
                 <UserButton></UserButton>
             </div>
 

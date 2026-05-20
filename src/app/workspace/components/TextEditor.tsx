@@ -8,18 +8,21 @@ import EditorExtensions from './EditorExtensions'
 import { useQuery } from 'convex/react'
 import { api } from '../../../../convex/_generated/api'
 import { useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 
 interface TextEditorProps {
     fileId: string
 }
 
 export default function TextEditor({ fileId }: TextEditorProps) {
+    const t = useTranslations('workspace.editor')
+
     const editor = useEditor({
         extensions: [
             StarterKit,
             Highlight,
             Placeholder.configure({
-                placeholder: 'Start taking your notes here …',
+                placeholder: t('placeholder'),
             }),
         ],
         editorProps: {

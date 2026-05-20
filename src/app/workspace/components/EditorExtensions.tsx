@@ -10,6 +10,8 @@ import { buildEditorPrompt } from "@/configs/prompt";
 import { toast } from "sonner";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+import { useLocale, useTranslations } from "next-intl";
+import type { Locale } from "@/i18n/config";
 
 
 interface EditorExtensionsProps {
@@ -30,11 +32,13 @@ interface ToolbarButton {
 export default function EditorExtensions({ editor }: EditorExtensionsProps) {
     const { fileId } = useParams()
     const { user } = useUser()
+    const locale = useLocale() as Locale
+    const t = useTranslations('workspace.editor')
     const SearchAi = useAction(api.myAction.search)
     const addNotes = useMutation(api.notes.addNotes)
 
     const onAiClick = async () => {
-        toast('AI is working...')
+        toast(t('aiWorking'))
 
         const seletedText = editor.state.doc.textBetween(
             editor.state.selection.from,
@@ -53,13 +57,13 @@ export default function EditorExtensions({ editor }: EditorExtensionsProps) {
             AllUnformattedAns += item.pageContent
         })
 
-        const prompt = buildEditorPrompt(seletedText, AllUnformattedAns)
-        const AiResponse = await chatSession.sendMessage(prompt)
+        const prompt = buildEditorPrompt(seletedText, AllUnformattedAns, locale)
+        const AiResponse = await chatSession.sendMessage(prompt, locale)
         let finalAns = AiResponse
         finalAns = finalAns.replace(/```html/g, '').replace(/```/g, '')
 
         const allText = editor.getHTML()
-        editor.commands.setContent(allText + '<p><strong>Answer:</strong>' + finalAns + '</p>')
+        editor.commands.setContent(allText + `<p><strong>${t('answerLabel')}</strong>` + finalAns + '</p>')
 
         addNotes({
             fileId: fileId as string,
@@ -70,13 +74,13 @@ export default function EditorExtensions({ editor }: EditorExtensionsProps) {
 
     const onExportPdf = () => {
         if (!editor) {
-            toast.error('Editor not ready')
+            toast.error(t('editorNotReady'))
             return
         }
 
         const printContent = document.getElementById('editor-print-content')
         if (!printContent) {
-            toast.error('Editor content not found')
+            toast.error(t('contentNotFound'))
             return
         }
 
@@ -92,7 +96,7 @@ export default function EditorExtensions({ editor }: EditorExtensionsProps) {
         const printDocument = printFrame.contentDocument || printFrame.contentWindow?.document
         if (!printDocument) {
             document.body.removeChild(printFrame)
-            toast.error('Unable to create print document')
+            toast.error(t('unableCreatePrint'))
             return
         }
 
@@ -172,7 +176,7 @@ export default function EditorExtensions({ editor }: EditorExtensionsProps) {
             }, 250)
         } else {
             document.body.removeChild(printFrame)
-            toast.error('Unable to access print window')
+            toast.error(t('unableAccessPrint'))
         }
     }
 
@@ -180,28 +184,28 @@ export default function EditorExtensions({ editor }: EditorExtensionsProps) {
         {
             id: 'bold',
             icon: Bold,
-            title: "Bold",
+            title: t('bold'),
             action: () => editor.chain().focus().toggleBold().run(),
             isActive: editor.isActive('bold')
         },
         {
             id: 'italic',
             icon: Italic,
-            title: "Italic",
+            title: t('italic'),
             action: () => editor.chain().focus().toggleItalic().run(),
             isActive: editor.isActive('italic')
         },
         {
             id: 'highlight',
             icon: Highlighter,
-            title: "Highlight",
+            title: t('highlight'),
             action: () => editor.chain().focus().toggleHighlight().run(),
             isActive: editor.isActive('highlight')
         },
         {
             id: 'ai-assistant',
             icon: Sparkle,
-            title: "AI Assistant",
+            title: t('aiAssistant'),
             action: onAiClick,
             isActive: false
         }
@@ -229,7 +233,7 @@ export default function EditorExtensions({ editor }: EditorExtensionsProps) {
                             )
                         })}
                     </div>
-                    <Button onClick={onExportPdf}>Export</Button>
+                    <Button onClick={onExportPdf}>{t('export')}</Button>
                 </div>
             </div>
         </div>

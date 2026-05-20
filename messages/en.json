@@ -1,0 +1,112 @@
+{
+  "metadata": {
+    "title": "AI-PDF-Note-Taker",
+    "description": "AI-PDF-Note-Taker"
+  },
+  "language": {
+    "en": "EN",
+    "zh": "中文"
+  },
+  "home": {
+    "nav": {
+      "features": "Features",
+      "solution": "Solution",
+      "testimonials": "Testimonials",
+      "blog": "Blog"
+    },
+    "signIn": "Sign in",
+    "hero": {
+      "titlePrefix": "Simplify",
+      "pdf": "PDF",
+      "titleSuffix": "Note-Taking",
+      "with": "with",
+      "aiPowered": "AI-Powered",
+      "description": "Elevate your note-taking experience with our AI-powered PDF app. Seamlessly extract key insights, summaries, and annotations from any PDF with just a few clicks.",
+      "getStarted": "Get started",
+      "learnMore": "Learn more"
+    },
+    "features": {
+      "lowestPrice": {
+        "title": "The lowest price",
+        "description": "Some text here"
+      },
+      "fastest": {
+        "title": "The fastest on the market",
+        "description": "Some text here"
+      },
+      "mostLoved": {
+        "title": "The most loved",
+        "description": "Some text here"
+      }
+    }
+  },
+  "dashboard": {
+    "sidebar": {
+      "workspace": "Workspace",
+      "upgrate": "Upgrade",
+      "uploadProgress": "{count} out of 5 Pdf Upload",
+      "upgradeToUploadMore": "Upgrade to Upload more Pdf",
+      "unlimitedUser": "You are an unlimited user!"
+    },
+    "upload": {
+      "button": "+ Upload Pdf",
+      "dialogTitle": "Upload Pdf file",
+      "selectFile": "Select a file to upload",
+      "fileNameLabel": "File Name *",
+      "fileNamePlaceholder": "File Name",
+      "close": "Close",
+      "upload": "Upload",
+      "untitledFile": "Untitled File",
+      "fileReady": "File is ready!"
+    },
+    "workspace": {
+      "title": "Workspace",
+      "loading": "Loading files...",
+      "emptyTitle": "No files uploaded yet",
+      "emptyDescription": "Upload your first PDF to get started"
+    },
+    "plans": {
+      "title": "Plans",
+      "subtitle": "Upgrade your plan to upload more PDFs and take notes",
+      "free": {
+        "name": "Free",
+        "duration": "/month",
+        "button": "Current Plan",
+        "features": {
+          "pdfUpload": "5 PDF Upload",
+          "notes": "Unlimited Notes Taking",
+          "email": "Email support",
+          "help": "Help center access"
+        }
+      },
+      "unlimited": {
+        "name": "Unlimited",
+        "duration": "/One Time",
+        "button": "Get Started",
+        "features": {
+          "pdfUpload": "Unlimited PDF Upload",
+          "notes": "Unlimited Notes Taking",
+          "email": "Email support",
+          "help": "Help center access"
+        }
+      },
+      "paySuccess": "Payment successful!"
+    }
+  },
+  "workspace": {
+    "editor": {
+      "placeholder": "Start taking your notes here …",
+      "bold": "Bold",
+      "italic": "Italic",
+      "highlight": "Highlight",
+      "aiAssistant": "AI Assistant",
+      "export": "Export",
+      "aiWorking": "AI is working...",
+      "editorNotReady": "Editor not ready",
+      "contentNotFound": "Editor content not found",
+      "unableCreatePrint": "Unable to create print document",
+      "unableAccessPrint": "Unable to access print window",
+      "answerLabel": "Answer:"
+    }
+  }
+}

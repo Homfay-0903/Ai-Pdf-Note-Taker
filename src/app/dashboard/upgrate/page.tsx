@@ -4,51 +4,39 @@ import { useUser } from "@clerk/nextjs";
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { toast } from "sonner";
-
-const plans = [
-    {
-        name: "Free",
-        price: "0$",
-        duration: "/month",
-        buttonText: "Current Plan",
-        features: [
-            "5 PDF Upload",
-            "Unlimited Notes Taking",
-            "Email support",
-            "Help center access",
-        ],
-    },
-    {
-        name: "Unlimited",
-        price: "9.99$",
-        duration: "/One Time",
-        buttonText: "Get Started",
-        features: [
-            "Unlimited PDF Upload",
-            "Unlimited Notes Taking",
-            "Email support",
-            "Help center access",
-        ],
-    },
-];
+import { useTranslations } from "next-intl";
 
 export default function Upgrate() {
     const { user } = useUser()
     const userUpgratePlan = useMutation(api.user.userUpgratePlan)
+    const t = useTranslations('dashboard.plans')
+
+    const plans = [
+        {
+            key: 'free' as const,
+            price: "0$",
+        },
+        {
+            key: 'unlimited' as const,
+            price: "9.99$",
+        },
+    ];
 
     const paymentSuccess = async () => {
         await userUpgratePlan({ email: user?.primaryEmailAddress?.emailAddress as string })
     }
 
+    const featureKeys = ['pdfUpload', 'notes', 'email', 'help'] as const
+
     return (
         <div>
-            <h2 className='font-medium text-3xl'>Plans</h2>
-            <p>upgrate your plans to upload more pdf to take notes</p>
+            <h2 className='font-medium text-3xl'>{t('title')}</h2>
+            <p>{t('subtitle')}</p>
             <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
                     {plans.map((plan) => (
                         <div
-                            key={plan.name}
+                            key={plan.key}
                             className="
                               rounded-2xl
                               border border-gray-200
@@ -59,29 +47,26 @@ export default function Upgrate() {
                               lg:p-12
                             "
                         >
-                            {/* 标题 */}
                             <div className="text-center">
                                 <h2 className="text-lg font-semibold text-gray-900">
-                                    {plan.name}
+                                    {t(`${plan.key}.name`)}
                                 </h2>
 
-                                {/* 价格 */}
                                 <div className="mt-3 flex items-end justify-center gap-1">
                                     <strong className="text-3xl font-bold text-gray-900 sm:text-4xl">
                                         {plan.price}
                                     </strong>
 
                                     <span className="text-sm text-gray-500">
-                                        {plan.duration}
+                                        {t(`${plan.key}.duration`)}
                                     </span>
                                 </div>
                             </div>
 
-                            {/* 功能列表 */}
                             <ul className="mt-6 space-y-3">
-                                {plan.features.map((feature) => (
+                                {featureKeys.map((featureKey) => (
                                     <li
-                                        key={feature}
+                                        key={featureKey}
                                         className="flex items-center gap-2"
                                     >
                                         <svg
@@ -100,13 +85,12 @@ export default function Upgrate() {
                                         </svg>
 
                                         <span className="text-sm text-gray-700">
-                                            {feature}
+                                            {t(`${plan.key}.features.${featureKey}`)}
                                         </span>
                                     </li>
                                 ))}
                             </ul>
 
-                            {/* 按钮 */}
                             <button
                                 className="
                                   mt-8
@@ -121,11 +105,11 @@ export default function Upgrate() {
                                   hover:bg-indigo-50
                                 "
                                 onClick={async () => {
-                                    toast('pay success!')
-                                    await paymentSuccess() // 调用升级函数
+                                    toast(t('paySuccess'))
+                                    await paymentSuccess()
                                 }}
                             >
-                                {plan.buttonText}
+                                {t(`${plan.key}.button`)}
                             </button>
                         </div>
                     ))}

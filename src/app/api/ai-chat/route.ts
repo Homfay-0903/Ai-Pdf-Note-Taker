@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { ZhipuAI } from 'zhipuai';
-import { AI_CHAT_SYSTEM_PROMPT } from '@/configs/prompt';
+import { getSystemPrompt } from '@/configs/prompt';
+import { defaultLocale, isValidLocale } from '@/i18n/config';
 
 export async function POST(req: Request) {
     try {
-        const { prompt } = await req.json();
+        const { prompt, locale: requestLocale } = await req.json();
+        const locale = isValidLocale(requestLocale) ? requestLocale : defaultLocale;
 
         const apiKey = process.env.NEXT_PUBLIC_ZHIPUAI_KEY;
 
@@ -17,7 +19,7 @@ export async function POST(req: Request) {
             messages: [
                 {
                     role: 'system',
-                    content: AI_CHAT_SYSTEM_PROMPT
+                    content: getSystemPrompt(locale)
                 },
                 {
                     role: 'user',
