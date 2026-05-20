@@ -16,7 +16,7 @@ export const ingest = action({
             args.splitText,
             args.splitText.map(() => ({ fileId: args.fileId })),
             new ZhipuAIEmbeddings({
-                apiKey: '1bb8eb8f9c18492c84db6ebda5a5dd2c.sTZl6pG4ZOKEhU69',
+                apiKey: process.env.ZHIPUAI_KEY,
             }),
             { ctx }
         );
@@ -33,7 +33,7 @@ export const search = action({
     handler: async (ctx, args) => {
         const vectorStore = new ConvexVectorStore(
             new ZhipuAIEmbeddings({
-                apiKey: '1bb8eb8f9c18492c84db6ebda5a5dd2c.sTZl6pG4ZOKEhU69',
+                apiKey: process.env.ZHIPUAI_KEY,
             }),
             { ctx }
         );

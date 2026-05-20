@@ -33,7 +33,9 @@ export default function SideBar() {
 
     return (
         <div className='shadow-md h-screen p-7'>
-            <img src={'/logo.svg'} alt="logo" width={150} height={150} />
+            <Link href={'/'}>
+                <img src={'/logo.svg'} alt="logo" width={130} height={130} />
+            </Link>
 
             <div className='mt-10'>
                 <UploadPdfDialog isMaxFile={(userFiles?.length as number) >= 5 && !userInfo?.upgrate ? true : false}>
@@ -41,8 +43,9 @@ export default function SideBar() {
 
                 <Link href={'/dashboard'}>
                     <div className={`flex gap-2 items-center p-3 mt-5
-                hover:bg-slate-100 rounded-lg cursor-pointer
-                ${pathChoosed === '/dashboard' && 'bg-slate-200'}`}>
+                     hover:bg-slate-100 rounded-lg cursor-pointer
+                     ${pathChoosed === '/dashboard' && 'bg-slate-200'}`}
+                    >
                         <Layout></Layout>
                         <h2>Workspace</h2>
                     </div>
@@ -50,8 +53,9 @@ export default function SideBar() {
 
                 <Link href={'/dashboard/upgrate'}>
                     <div className={`flex gap-2 items-center p-3 mt-5
-                hover:bg-slate-100 rounded-lg cursor-pointer
-                ${pathChoosed === '/dashboard/upgrate' && 'bg-slate-200'}`}>
+                     hover:bg-slate-100 rounded-lg cursor-pointer
+                     ${pathChoosed === '/dashboard/upgrate' && 'bg-slate-200'}`}
+                    >
                         <Shield></Shield>
                         <h2>Upgrate</h2>
                     </div>

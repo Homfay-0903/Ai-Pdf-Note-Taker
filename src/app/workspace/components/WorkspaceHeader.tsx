@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { UserButton } from '@clerk/nextjs'
+import Link from 'next/link'
 
 interface WorkspaceHeaderProps {
     fileName: string
@@ -8,10 +9,11 @@ interface WorkspaceHeaderProps {
 export default function WorkspaceHeader({ fileName }: WorkspaceHeaderProps) {
     return (
         <div className='p-4 flex justify-between shadow-md'>
-            <img src={'/logo.svg'} alt="logo" width={100} height={100} />
+            <Link href={'/dashboard'}>
+                <img src={'/logo.svg'} alt="logo" width={100} height={100} />
+            </Link>
             <h2 className='font-bold'>{fileName}</h2>
             <div className='flex items-center gap-2'>
-                <Button>Save</Button>
                 <UserButton></UserButton>
             </div>
 

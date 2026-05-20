@@ -83,7 +83,9 @@ export default function UploadPdfDialog({ isMaxFile }: UploadPdfDialogProps) {
     return (
         <Dialog open={open}>
             <DialogTrigger asChild>
-                <Button onClick={() => setOpen(true)} disabled={isMaxFile} className='w-full'>+ Upload Pdf</Button>
+                <Button onClick={() => setOpen(true)} disabled={isMaxFile} className='w-full cursor-pointer'>
+                    + Upload Pdf
+                </Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>

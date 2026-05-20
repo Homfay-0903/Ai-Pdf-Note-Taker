@@ -45,7 +45,7 @@ export default function TextEditor({ fileId }: TextEditorProps) {
     return (
         <div>
             <EditorExtensions editor={editor}></EditorExtensions>
-            <div className='overflow-scroll h-[80vh]'>
+            <div id="editor-print-content" className='overflow-y-auto h-[80vh]'>
                 <EditorContent editor={editor} />
             </div>
         </div>
