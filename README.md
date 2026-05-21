@@ -86,7 +86,7 @@ notes: {
 
 #### 2. **PDF 上传与处理**
 
-- [UploadPdfDialog.tsx](file:///e:/study/fullstack/ai-pdf-note-taker/src/app/dashboard/components/UploadPdfDialog.tsx) 处理文件上传
+- [UploadPdfDialog.tsx] 处理文件上传
 - PDF 存储到 Convex Storage
 - 使用 LangChain 的 `WebPDFLoader` 解析 PDF 内容
 - 使用 `RecursiveCharacterTextSplitter` 分块 (chunkSize: 1000, overlap: 200)
