@@ -16,6 +16,7 @@ import type { Locale } from "@/i18n/config";
 
 interface EditorExtensionsProps {
     editor: Editor
+    onAskAI?: (question: string) => void
 }
 interface AiAnswer {
     pageContent: string
@@ -29,7 +30,7 @@ interface ToolbarButton {
     isActive?: boolean
 }
 
-export default function EditorExtensions({ editor }: EditorExtensionsProps) {
+export default function EditorExtensions({ editor, onAskAI }: EditorExtensionsProps) {
     const { fileId } = useParams()
     const { user } = useUser()
     const locale = useLocale() as Locale
@@ -38,13 +39,25 @@ export default function EditorExtensions({ editor }: EditorExtensionsProps) {
     const addNotes = useMutation(api.notes.addNotes)
 
     const onAiClick = async () => {
-        toast(t('aiWorking'))
-
         const seletedText = editor.state.doc.textBetween(
             editor.state.selection.from,
             editor.state.selection.to,
             ' '
         )
+
+        if (!seletedText.trim()) {
+            toast.error(t('noTextSelected'))
+            return
+        }
+
+        // If chat panel is available, switch to it with the question
+        if (onAskAI) {
+            onAskAI(seletedText)
+            return
+        }
+
+        // Legacy: insert answer directly into editor
+        toast(t('aiWorking'))
 
         const result = await SearchAi({
             query: seletedText,

@@ -94,6 +94,10 @@
     }
   },
   "workspace": {
+    "tabs": {
+      "notes": "Notes",
+      "chat": "Q&A"
+    },
     "editor": {
       "placeholder": "Start taking your notes here …",
       "bold": "Bold",
@@ -102,11 +106,17 @@
       "aiAssistant": "AI Assistant",
       "export": "Export",
       "aiWorking": "AI is working...",
+      "noTextSelected": "Please select text in the editor to ask about",
       "editorNotReady": "Editor not ready",
       "contentNotFound": "Editor content not found",
       "unableCreatePrint": "Unable to create print document",
       "unableAccessPrint": "Unable to access print window",
       "answerLabel": "Answer:"
+    },
+    "chat": {
+      "inputPlaceholder": "Type your question...",
+      "emptyHint": "Select text in the editor and click AI Assistant to ask, or type a question below",
+      "error": "AI request failed, please try again"
     }
   }
 }

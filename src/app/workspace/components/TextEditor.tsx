@@ -12,9 +12,10 @@ import { useTranslations } from 'next-intl'
 
 interface TextEditorProps {
     fileId: string
+    onAskAI?: (question: string) => void
 }
 
-export default function TextEditor({ fileId }: TextEditorProps) {
+export default function TextEditor({ fileId, onAskAI }: TextEditorProps) {
     const t = useTranslations('workspace.editor')
 
     const editor = useEditor({
@@ -47,7 +48,7 @@ export default function TextEditor({ fileId }: TextEditorProps) {
 
     return (
         <div>
-            <EditorExtensions editor={editor}></EditorExtensions>
+            <EditorExtensions editor={editor} onAskAI={onAskAI}></EditorExtensions>
             <div id="editor-print-content" className='overflow-y-auto h-[80vh]'>
                 <EditorContent editor={editor} />
             </div>

@@ -94,6 +94,10 @@
     }
   },
   "workspace": {
+    "tabs": {
+      "notes": "笔记",
+      "chat": "问答"
+    },
     "editor": {
       "placeholder": "在此开始记录笔记…",
       "bold": "加粗",
@@ -102,11 +106,17 @@
       "aiAssistant": "AI 助手",
       "export": "导出",
       "aiWorking": "AI 正在处理...",
+      "noTextSelected": "请先在编辑器中选中要提问的文本",
       "editorNotReady": "编辑器未就绪",
       "contentNotFound": "未找到编辑器内容",
       "unableCreatePrint": "无法创建打印文档",
       "unableAccessPrint": "无法访问打印窗口",
       "answerLabel": "回答："
+    },
+    "chat": {
+      "inputPlaceholder": "输入你的问题...",
+      "emptyHint": "选中 PDF 或编辑器中的文本，点击 AI 助手开始提问；或直接在下方输入问题",
+      "error": "AI 请求失败，请重试"
     }
   }
 }
