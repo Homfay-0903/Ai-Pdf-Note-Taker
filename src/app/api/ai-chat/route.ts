@@ -14,12 +14,13 @@ export async function POST(req: Request) {
             apiKey: apiKey || ''
         });
 
-        const historyMessages = (Array.isArray(history) ? history : [])
-            .filter((m: { role?: string }) => m?.role === 'user' || m?.role === 'assistant')
-            .map((m: { role: string; content: string }) => ({
-                role: m.role,
-                content: m.content
-            }));
+        const historyMessages: { role: 'user' | 'assistant'; content: string }[] =
+            (Array.isArray(history) ? history : [])
+                .filter((m: { role?: string }) => m?.role === 'user' || m?.role === 'assistant')
+                .map((m: { role: 'user' | 'assistant'; content: string }) => ({
+                    role: m.role,
+                    content: m.content
+                }));
 
         const response = await client.chat.completions.create({
             model: 'glm-4.7',
