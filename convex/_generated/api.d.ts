@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as chatHistory from "../chatHistory.js";
 import type * as fileStorage from "../fileStorage.js";
 import type * as langchain_db from "../langchain/db.js";
 import type * as myAction from "../myAction.js";
@@ -21,6 +22,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  chatHistory: typeof chatHistory;
   fileStorage: typeof fileStorage;
   "langchain/db": typeof langchain_db;
   myAction: typeof myAction;

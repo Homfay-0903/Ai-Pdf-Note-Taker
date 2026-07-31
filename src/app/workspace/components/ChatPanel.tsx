@@ -1,20 +1,16 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { useAction } from 'convex/react'
+import { useAction, useMutation, useQuery } from 'convex/react'
 import { api } from '../../../../convex/_generated/api'
-import { chatSession } from '@/configs/AiModal'
+import { chatSession, type ChatMessage } from '@/configs/AiModal'
 import { buildEditorPrompt } from '@/configs/prompt'
 import { useParams } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
+import { useUser } from '@clerk/nextjs'
 import { toast } from 'sonner'
 import { Send, Loader2, User, Bot } from 'lucide-react'
 import type { Locale } from '@/i18n/config'
-
-interface Message {
-    role: 'user' | 'assistant'
-    content: string
-}
 
 interface AiAnswer {
     pageContent: string
@@ -29,13 +25,27 @@ export default function ChatPanel({ initialQuestion, onQuestionProcessed }: Chat
     const { fileId } = useParams()
     const locale = useLocale() as Locale
     const t = useTranslations('workspace.chat')
+    const { user } = useUser()
     const SearchAi = useAction(api.myAction.search)
+    const saveChatHistory = useMutation(api.chatHistory.saveChatHistory)
 
-    const [messages, setMessages] = useState<Message[]>([])
+    const [messages, setMessages] = useState<ChatMessage[]>([])
+    const [historyLoaded, setHistoryLoaded] = useState(false)
     const [input, setInput] = useState('')
     const [loading, setLoading] = useState(false)
     const messagesEndRef = useRef<HTMLDivElement>(null)
     const inputRef = useRef<HTMLInputElement>(null)
+
+    const chatHistory = useQuery(api.chatHistory.getChatHistory, {
+        fileId: fileId as string
+    })
+
+    useEffect(() => {
+        if (chatHistory !== undefined && !historyLoaded) {
+            setMessages(chatHistory)
+            setHistoryLoaded(true)
+        }
+    }, [chatHistory, historyLoaded])
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -45,13 +55,23 @@ export default function ChatPanel({ initialQuestion, onQuestionProcessed }: Chat
         scrollToBottom()
     }, [messages])
 
+    const persistHistory = (nextMessages: ChatMessage[]) => {
+        saveChatHistory({
+            fileId: fileId as string,
+            messages: nextMessages,
+            createdBy: user?.primaryEmailAddress?.emailAddress ?? 'unknown'
+        })
+    }
+
     const handleSend = async (question: string) => {
         if (!question.trim() || loading) return
 
-        const userMessage: Message = { role: 'user', content: question.trim() }
-        setMessages(prev => [...prev, userMessage])
+        const userMessage: ChatMessage = { role: 'user', content: question.trim() }
+        const withUser = [...messages, userMessage]
+        setMessages(withUser)
         setInput('')
         setLoading(true)
+        persistHistory(withUser)
 
         try {
             const result = await SearchAi({
@@ -66,11 +86,13 @@ export default function ChatPanel({ initialQuestion, onQuestionProcessed }: Chat
             })
 
             const prompt = buildEditorPrompt(question.trim(), allContent, locale)
-            const aiResponse = await chatSession.sendMessage(prompt, locale)
+            const aiResponse = await chatSession.sendMessage(prompt, locale, withUser.slice(0, -1))
             let finalAns = aiResponse.replace(/```html/g, '').replace(/```/g, '')
 
-            const assistantMessage: Message = { role: 'assistant', content: finalAns }
-            setMessages(prev => [...prev, assistantMessage])
+            const assistantMessage: ChatMessage = { role: 'assistant', content: finalAns }
+            const withAssistant = [...withUser, assistantMessage]
+            setMessages(withAssistant)
+            persistHistory(withAssistant)
         } catch {
             toast.error(t('error'))
         } finally {
@@ -80,11 +102,11 @@ export default function ChatPanel({ initialQuestion, onQuestionProcessed }: Chat
 
     // Process initial question from editor selection
     useEffect(() => {
-        if (initialQuestion) {
+        if (initialQuestion && historyLoaded) {
             handleSend(initialQuestion)
             onQuestionProcessed()
         }
-    }, [initialQuestion])
+    }, [initialQuestion, historyLoaded])
 
     const onSendClick = () => {
         handleSend(input)
@@ -101,7 +123,7 @@ export default function ChatPanel({ initialQuestion, onQuestionProcessed }: Chat
         <div className="flex flex-col h-[80vh]">
             {/* Messages area */}
             <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
-                {messages.length === 0 && !loading && (
+                {messages.length === 0 && !loading && historyLoaded && (
                     <div className="flex items-center justify-center h-full text-muted-foreground">
                         <p>{t('emptyHint')}</p>
                     </div>

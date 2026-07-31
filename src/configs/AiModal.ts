@@ -1,13 +1,22 @@
 import type { Locale } from '@/i18n/config'
 
-export async function sendMessage(prompt: string, locale: Locale = 'zh'): Promise<string> {
+export interface ChatMessage {
+    role: 'user' | 'assistant'
+    content: string
+}
+
+export async function sendMessage(
+    prompt: string,
+    locale: Locale = 'zh',
+    history: ChatMessage[] = []
+): Promise<string> {
     try {
         const response = await fetch('/api/ai-chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ prompt, locale })
+            body: JSON.stringify({ prompt, locale, history })
         })
 
         if (!response.ok) {

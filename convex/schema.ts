@@ -30,5 +30,11 @@ export default defineSchema({
         fileId: v.string(),
         notes: v.any(),
         createdBy: v.string()
+    }),
+
+    chatHistory: defineTable({
+        fileId: v.string(),
+        messages: v.any(),
+        createdBy: v.string()
     })
 })
