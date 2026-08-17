@@ -30,8 +30,8 @@ export default async function RootLayout({
 
   return (
     <ClerkProvider localization={getClerkLocalization(locale)}>
-      <html lang={locale}>
-        <body className={outfit.className}>
+      <html lang={locale} suppressHydrationWarning>
+        <body className={outfit.className} suppressHydrationWarning>
           <NextIntlClientProvider messages={messages}>
             <Provider>
               {children}
