@@ -92,7 +92,7 @@ async function ocrPageText(page: any, canvasFactory: any): Promise<string> {
             },
         ],
         temperature: 0.1,
-        max_tokens: 2000,
+        max_tokens: 1024,
     };
 
     for (let attempt = 0; attempt < 2; attempt++) {
